@@ -38,4 +38,11 @@
         android:layout_alignTop="@+id/textView"
         android:layout_alignRight="@+id/webView"
         android:layout_alignEnd="@+id/webView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_alignBottom="@+id/powerButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

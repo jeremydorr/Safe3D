@@ -2,23 +2,30 @@ package com.example.basement.safe3d;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends AppCompatActivity {
-
+    ImageView image;
+    boolean safe;
+    RadioGroup tempGroup;
+    RadioButton btnCelsius;
+    RadioButton btnFahrenheight;
+    Button done;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -37,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         mywebView.getSettings().setPluginState(WebSettings.PluginState.ON);
         mywebView.loadUrl("https://www.youtube.com/embed/2GQNxRIs8K0");
         mywebView.setWebViewClient(new WebViewClient());
+
+        image = (ImageView) findViewById(R.id.imageView2);
+        if(safe==true){
+            image.setImageResource(R.drawable.safe);
+        }
+        else {
+            image.setImageResource(R.drawable.unsafe);
+        }
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
@@ -57,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            setContentView(R.layout.settingslayout);
+            tempGroup = (RadioGroup) findViewById(R.id.btnGroup);
+            done = (Button) findViewById(R.id.btnDone);
+            done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int selectedId = tempGroup.getCheckedRadioButtonId();
+                    if (selectedId == R.id.tmpCelsius){
+                        safe = false;
+                    }
+                    else {
+                        safe=true;
+                    }
+                    renderMain();
+                }
+            });
             return true;
         }
 
@@ -101,5 +132,25 @@ public class MainActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    public void renderMain() {
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        WebView mywebView = (WebView) findViewById(R.id.webView);
+        mywebView.getSettings().setJavaScriptEnabled(true);
+        mywebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mywebView.loadUrl("https://www.youtube.com/embed/2GQNxRIs8K0");
+        mywebView.setWebViewClient(new WebViewClient());
+
+        image = (ImageView) findViewById(R.id.imageView2);
+        if(safe==true){
+            image.setImageResource(R.drawable.safe);
+        }
+        else {
+            image.setImageResource(R.drawable.unsafe);
+        }
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 }
