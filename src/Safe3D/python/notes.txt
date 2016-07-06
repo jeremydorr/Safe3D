@@ -1,0 +1,1 @@
+for smoke detector right side of R3 seems to give 1.5V with reference to battery (-) when the alarm is sounded.  :
